@@ -1,0 +1,88 @@
+#######
+# Start Application
+Function MAIN():
+
+    sampleValues = [9, 6, 8, 5, 7]
+    sampleStdDev = COMPUTE_SAMPLE_STANDARD_DEVIATION(sampleValues)
+    Print("Sample StdDev =", sampleStdDev)
+    # Writes "Sample StdDev=1.5811388300841898"
+    # From https://www.cuemath.com/sample-standard-deviation-formula/
+
+    populationValues = [9, 2, 5, 4, 12, 7, 8, 11, 9, 3, 7, 4, 12, 5, 4, 10, 9, 6, 9, 4]
+    popStdDev = COMPUTE_POPULATION_STANDARD_DEVIATION(populationValues)
+    Print("Population StdDev =", popStdDev)
+    # Writes "Population StdDev=2.9832867780352594"
+    # From https://www.thoughtco.com/population-standard-deviation-calculation-609522
+
+
+#######
+# Function to compute the mean (average) of a list of values
+Function COMPUTE_MEAN(values):
+
+    If values is empty:
+        Raise Error "values parameter cannot be null or empty"
+
+    sumAccumulator = 0
+    For each value in values:
+        sumAccumulator = sumAccumulator + value
+
+    # Return the average (sum divided by the number of values)
+    Return sumAccumulator / Number of values in values
+
+
+#######
+# Function to compute the sum of squared differences from the mean
+Function COMPUTE_SQUARE_OF_DIFFERENCES(values, mean):
+
+    If values is empty:
+        Raise Error "values parameter cannot be null or empty"
+
+    squareAccumulator = 0
+    For each value in values:
+        difference = value - mean
+        squareOfDifference = difference * difference
+        squareAccumulator = squareAccumulator + squareOfDifference
+
+    Return squareAccumulator
+
+
+#######
+# Function to compute the variance based on squared differences
+Function COMPUTE_VARIANCE(squareOfDifferences, numValues, isPopulation):
+
+    # Adjust number of values for sample or population
+    If not isPopulation:
+        numValues = numValues - 1
+
+    If numValues < 1:
+        Raise Error "numValues is too low (sample must be >= 1, population must be >= 2)"
+
+    Return squareOfDifferences / numValues
+
+
+#######
+# Function to compute the population or sample standard deviation from a list of values
+Function COMPUTE_STANDARD_DEVIATION(values, isPopulation):
+
+    If values is empty:
+        Raise Error "values parameter cannot be null or empty"
+
+    mean = ComputeMean(values)
+    squareOfDifferences = ComputeSquareOfDifferences(values, mean)
+    variance = ComputeVariance(squareOfDifferences, Number of values in values, isPopulation)
+
+    Return SquareRoot(variance)
+
+
+#######
+# Function to compute the sample standard deviation
+Function COMPUTE_SAMPLE_STANDARD_DEVIATION(values):
+
+    Return COMPUTE_STANDARD_DEVIATION(values, false)
+
+
+#######
+# Function to compute the population standard deviation
+Function COMPUTE_POPULATION_STANDARD_DEVIATION(values):
+
+    Return COMPUTE_STANDARD_DEVIATION(values, true)
